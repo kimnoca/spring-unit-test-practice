@@ -5,22 +5,24 @@ import com.example.springunittestpractice.post.dto.PostCreateDto;
 import com.example.springunittestpractice.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class PostService {
 
     private final PostRepository postRepository;
 
     public Post savePost(PostCreateDto postCreateDto) {
-
-        return Post.builder()
+        Post post = Post.builder()
                 .title(postCreateDto.getTitle())
                 .content(postCreateDto.getContent())
                 .build();
+
+        postRepository.save(post);
+
+        return post;
     }
+
 
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));

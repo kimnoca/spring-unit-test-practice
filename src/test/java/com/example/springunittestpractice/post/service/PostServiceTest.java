@@ -3,6 +3,9 @@ package com.example.springunittestpractice.post.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.example.springunittestpractice.post.domain.Post;
@@ -50,7 +53,7 @@ public class PostServiceTest {
 
         ReflectionTestUtils.setField(post, "id", 1L);
 
-        when(postRepository.save(post)).thenReturn(post);
+        when(postRepository.save(any(Post.class))).thenReturn(post);
 
         // when
         Post insertPost = postService.savePost(setUpCreatePost());
@@ -58,6 +61,8 @@ public class PostServiceTest {
         // then
         assertThat(insertPost.getContent()).isEqualTo(post.getContent());
         assertThat(insertPost.getTitle()).isEqualTo(post.getTitle());
+
+        verify(postRepository, times(1)).save(insertPost);
     }
 
     @Test
@@ -69,11 +74,9 @@ public class PostServiceTest {
                 .content("내용1")
                 .build();
 
-        ReflectionTestUtils.setField(post, "id", 1L);
-
         when(postRepository.findById(1L)).thenReturn(Optional.of(post));
 
-        // when
+        // postService.findById 가 postRepository.findById 랑 같은 기능을 하도록 구현 하는것이 목표 > 제대로 했는지 test 하는건가?
         Post foundPost = postService.findById(1L);
 
         // then
@@ -90,7 +93,6 @@ public class PostServiceTest {
                 .content("내용1")
                 .build();
 
-        ReflectionTestUtils.setField(post, "id", 2L);
         when(postRepository.findById(2L)).thenReturn(Optional.of(post));
 
         // then
