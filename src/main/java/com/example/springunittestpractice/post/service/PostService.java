@@ -15,13 +15,13 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public void savePost(PostCreateDto postCreateDto) {
+    public Post savePost(PostCreateDto postCreateDto) {
         Post post = Post.builder()
                 .title(postCreateDto.getTitle())
-                .content(postCreateDto.getTitle())
+                .content(postCreateDto.getContent())
                 .build();
 
-        postRepository.save(post);
+        return post;
     }
 
     public List<Post> findAll() {
