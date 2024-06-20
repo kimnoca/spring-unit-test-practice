@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(SpringExtension.class)
 public class PostServiceTest {
@@ -51,16 +50,14 @@ public class PostServiceTest {
                 .content("내용1")
                 .build();
 
-        ReflectionTestUtils.setField(post, "id", 1L);
-
         when(postRepository.save(any(Post.class))).thenReturn(post);
 
         // when
         Post insertPost = postService.savePost(setUpCreatePost());
 
         // then
-        assertThat(insertPost.getContent()).isEqualTo(post.getContent());
         assertThat(insertPost.getTitle()).isEqualTo(post.getTitle());
+        assertThat(insertPost.getContent()).isEqualTo(post.getContent());
 
         verify(postRepository, times(1)).save(insertPost);
     }
