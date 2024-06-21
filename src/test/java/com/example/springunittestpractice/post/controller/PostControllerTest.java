@@ -71,7 +71,7 @@ class PostControllerTest {
         when(postService.findById(1L)).thenReturn(post);
 
         // then
-        mockMvc.perform(MockMvcRequestBuilders.get("/post/{id}", 1).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.get("/post/{postId}", 1).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("title").value("제목1"))
