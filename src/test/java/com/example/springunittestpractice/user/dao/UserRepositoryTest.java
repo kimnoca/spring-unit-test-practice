@@ -1,6 +1,7 @@
 package com.example.springunittestpractice.user.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.springunittestpractice.user.domain.User;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 
 @DataJpaTest
@@ -31,6 +33,28 @@ class UserRepositoryTest {
         assertThat(resultUser.getEmail()).isEqualTo("kimnoca@naver.com");
         assertThat(resultUser.getNickname()).isEqualTo("김노카");
     }
+
+    @Test
+    @DisplayName("유저 email 중복 관련 체크")
+    void userEmailConflict() {
+        User user1 = User.builder()
+                .email("kimnoca@naver.com")
+                .nickname("김노카")
+                .build();
+
+        userRepository.save(user1);
+
+        User user2 = User.builder()
+                .email("kimnoca@naver.com")
+                .nickname("김형준")
+                .build();
+        // DataIntegrityViolationException 는 Data 무결성 제약 관련 Exception 이다.
+        // email column에 unique = true 설정을 해주었기때문에 같은 email로 save를 하면 exception 발생
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            userRepository.save(user2);
+        });
+    }
+
 
     @Test
     @DisplayName("모든 유저 조회 테스트")
