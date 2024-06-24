@@ -2,6 +2,7 @@ package com.example.springunittestpractice.post.domain;
 
 
 import com.example.springunittestpractice.user.domain.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,11 +26,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false) // nullable check 는 service layer
     private String title;
 
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private User author;
 }
