@@ -8,7 +8,6 @@ import com.example.springunittestpractice.user.dto.UserResponseDto;
 import com.example.springunittestpractice.user.dto.UserUpdateDto;
 import com.example.springunittestpractice.user.exception.AlreadyExistUserException;
 import com.example.springunittestpractice.user.exception.NotFoundUserException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

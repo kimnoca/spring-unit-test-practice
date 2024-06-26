@@ -1,7 +1,6 @@
 package com.example.springunittestpractice.post.dto;
 
 
-import com.example.springunittestpractice.post.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -4,13 +4,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-import com.example.springunittestpractice.post.domain.Post;
-import com.example.springunittestpractice.post.dto.PostCreateDto;
-import com.example.springunittestpractice.post.service.PostService;
-import com.example.springunittestpractice.user.domain.User;
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
-import com.example.springunittestpractice.user.dto.UserUpdateDto;
 import com.example.springunittestpractice.user.exception.AlreadyExistUserException;
 import com.example.springunittestpractice.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
