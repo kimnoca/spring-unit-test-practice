@@ -17,4 +17,14 @@ public class UserExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
+
+    @ExceptionHandler(AlreadyExistUserException.class)
+    ResponseEntity<?> alreadyExistUserException(AlreadyExistUserException ex) {
+        ErrorResponse response = ErrorResponse.builder()
+                .httpStatus(409)
+                .message(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 }
