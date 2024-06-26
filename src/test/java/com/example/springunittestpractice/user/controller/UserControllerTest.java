@@ -11,6 +11,7 @@ import com.example.springunittestpractice.user.domain.User;
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
 import com.example.springunittestpractice.user.dto.UserUpdateDto;
+import com.example.springunittestpractice.user.exception.AlreadyExistUserException;
 import com.example.springunittestpractice.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -60,5 +61,27 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("nickname").value("김노카"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("kimnoca@naver.com"));
+    }
+
+    @Test
+    @DisplayName("유저 생성 실패")
+    void createUserFail() throws Exception {
+        UserCreateDto userCreateDto = UserCreateDto.builder()
+                .email("kimnoca@naver.com")
+                .nickname("김노카")
+                .build();
+
+        // any() -> 이렇게 테스트를 돌리면 무슨 의미가 있는지 아직 잘 모르겠다
+        when(userService.createUser(any(UserCreateDto.class)))
+                .thenThrow(new AlreadyExistUserException("이미 존재하는 email 입니다."));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userCreateDto)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andExpect(MockMvcResultMatchers.jsonPath("httpStatus").value(409))
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value("이미 존재하는 email 입니다."));
+
     }
 }
