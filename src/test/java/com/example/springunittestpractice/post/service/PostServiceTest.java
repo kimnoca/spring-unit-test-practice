@@ -12,6 +12,8 @@ import com.example.springunittestpractice.post.domain.Post;
 import com.example.springunittestpractice.post.dto.PostCreateDto;
 import com.example.springunittestpractice.post.repository.PostRepository;
 import java.util.Optional;
+
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -93,7 +95,7 @@ public class PostServiceTest {
         when(postRepository.findById(2L)).thenReturn(Optional.of(post));
 
         // then
-        assertThatThrownBy(() -> postService.findById(10L)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> postService.findById(10L)).isInstanceOf(BusinessLogicException.class);
 
     }
 }

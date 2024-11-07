@@ -9,8 +9,10 @@ import com.example.springunittestpractice.user.dao.UserRepository;
 import com.example.springunittestpractice.user.domain.User;
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
-import com.example.springunittestpractice.user.exception.AlreadyExistUserException;
+
 import java.util.Optional;
+
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,7 +65,7 @@ class UserServiceTest {
 
         when(userRepository.findByEmail("kimnoca@naver.com")).thenReturn(Optional.ofNullable(user));
 
-        assertThrows(AlreadyExistUserException.class, () -> {
+        assertThrows(BusinessLogicException.class, () -> {
             userService.createUser(userCreateDto);
         });
 

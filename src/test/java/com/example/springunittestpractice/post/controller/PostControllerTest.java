@@ -6,6 +6,7 @@ import com.example.springunittestpractice.post.domain.Post;
 import com.example.springunittestpractice.post.dto.PostCreateDto;
 import com.example.springunittestpractice.post.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ class PostControllerTest {
     @DisplayName("게시물 단건 조회 실패")
     void findByIDFail() throws Exception {
 
-        when(postService.findById(2L)).thenThrow(new IllegalArgumentException("해당 게시물이 없습니다."));
+        when(postService.findById(2L)).thenThrow(new BusinessLogicException("해당 게시물이 없습니다.", 404));
 
         // then
         mockMvc.perform(MockMvcRequestBuilders.get("/post/{postId}", 2).contentType(MediaType.APPLICATION_JSON))

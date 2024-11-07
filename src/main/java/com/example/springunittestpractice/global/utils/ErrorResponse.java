@@ -1,4 +1,4 @@
-package global.utils;
+package com.example.springunittestpractice.global.utils;
 
 
 import lombok.Builder;

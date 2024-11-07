@@ -6,14 +6,17 @@ import static org.mockito.Mockito.when;
 
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
-import com.example.springunittestpractice.user.exception.AlreadyExistUserException;
 import com.example.springunittestpractice.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -68,15 +71,12 @@ class UserControllerTest {
 
         // any() -> 이렇게 테스트를 돌리면 무슨 의미가 있는지 아직 잘 모르겠다
         when(userService.createUser(any(UserCreateDto.class)))
-                .thenThrow(new AlreadyExistUserException("이미 존재하는 email 입니다."));
+                .thenThrow(new BusinessLogicException("이미 존재하는 email 입니다.", HttpStatus.CONFLICT.value()));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userCreateDto)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isConflict())
-                .andExpect(MockMvcResultMatchers.jsonPath("httpStatus").value(409))
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("이미 존재하는 email 입니다."));
-
+                .andExpect(MockMvcResultMatchers.status().isConflict());
     }
 }

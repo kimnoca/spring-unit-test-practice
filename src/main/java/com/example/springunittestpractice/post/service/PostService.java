@@ -3,7 +3,9 @@ package com.example.springunittestpractice.post.service;
 import com.example.springunittestpractice.post.domain.Post;
 import com.example.springunittestpractice.post.dto.PostCreateDto;
 import com.example.springunittestpractice.post.repository.PostRepository;
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +29,7 @@ public class PostService {
 
 
     public Post findById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
+        return postRepository.findById(id).orElseThrow(() -> new BusinessLogicException("해당 게시물이 없습니다.", HttpStatus.NOT_FOUND.value()));
     }
 
 }

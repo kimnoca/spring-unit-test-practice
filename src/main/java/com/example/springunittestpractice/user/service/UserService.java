@@ -6,9 +6,9 @@ import com.example.springunittestpractice.user.domain.User;
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
 import com.example.springunittestpractice.user.dto.UserUpdateDto;
-import com.example.springunittestpractice.user.exception.AlreadyExistUserException;
-import com.example.springunittestpractice.user.exception.NotFoundUserException;
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +20,7 @@ public class UserService {
     public UserResponseDto createUser(UserCreateDto userCreateDto) {
 
         if (userRepository.findByEmail(userCreateDto.getEmail()).isPresent()) {
-            throw new AlreadyExistUserException("이미 존재하는 email 입니다.");
+            throw new BusinessLogicException("이미 존재하는 email 입니다.", HttpStatus.BAD_REQUEST.value());
         }
 
         User user = User.builder()
@@ -39,7 +39,7 @@ public class UserService {
     public UserResponseDto updateUser(Long userId, UserUpdateDto userUpdateDto) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException("존재하지 않는 User 입니다. " + userId));
+                .orElseThrow(() -> new BusinessLogicException("존재하지 않는 User 입니다. " + userId, HttpStatus.BAD_REQUEST.value()));
 
         user.changeUserNickname(userUpdateDto.getNewUserNickname());
 
@@ -51,7 +51,7 @@ public class UserService {
 
     public UserResponseDto findById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException("존재하지 않는 User 입니다. " + userId));
+                .orElseThrow(() -> new BusinessLogicException("존재하지 않는 User 입니다. " + userId, HttpStatus.BAD_REQUEST.value()));
 
         return UserResponseDto.builder()
                 .email(user.getEmail())
