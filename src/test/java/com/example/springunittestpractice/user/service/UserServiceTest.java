@@ -5,14 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import com.example.springunittestpractice.user.dao.UserRepository;
 import com.example.springunittestpractice.user.domain.User;
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
-
 import java.util.Optional;
-
-import com.example.springunittestpractice.global.exception.BusinessLogicException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,14 +31,14 @@ class UserServiceTest {
     @Test
     void createUser() {
         User user = User.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+            .email("kimnoca@naver.com")
+            .nickname("김노카")
+            .build();
 
         UserCreateDto userCreateDto = UserCreateDto.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+            .email("kimnoca@naver.com")
+            .nickname("김노카")
+            .build();
 
         when(userRepository.save(any())).thenReturn(user);
 
@@ -48,20 +46,20 @@ class UserServiceTest {
 
 //        verify(userService, times(1)).createUser(userCreateDto); -> @Spy 하면 잘 돌아감
 
-        assertThat(response.getEmail()).isEqualTo(user.getEmail());
+        assertThat(response.email()).isEqualTo(user.getEmail());
     }
 
     @Test
     void createUserFail() {
         User user = User.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+            .email("kimnoca@naver.com")
+            .nickname("김노카")
+            .build();
 
         UserCreateDto userCreateDto = UserCreateDto.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+            .email("kimnoca@naver.com")
+            .nickname("김노카")
+            .build();
 
         when(userRepository.findByEmail("kimnoca@naver.com")).thenReturn(Optional.ofNullable(user));
 
