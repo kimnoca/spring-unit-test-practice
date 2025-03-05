@@ -1,7 +1,7 @@
 package com.example.springunittestpractice.user.domain;
 
+import com.example.springunittestpractice.global.entity.BaseEntity;
 import com.example.springunittestpractice.post.domain.Post;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Users")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

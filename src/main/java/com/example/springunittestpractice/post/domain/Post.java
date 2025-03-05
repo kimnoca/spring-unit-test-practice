@@ -1,5 +1,6 @@
 package com.example.springunittestpractice.post.domain;
 
+import com.example.springunittestpractice.global.entity.BaseEntity;
 import com.example.springunittestpractice.user.domain.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
