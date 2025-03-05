@@ -24,9 +24,9 @@ class UserRepositoryTest {
     void userCreate() {
 
         User user = User.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+                        .email("kimnoca@naver.com")
+                        .nickname("김노카")
+                        .build();
 
         User resultUser = userRepository.save(user);
 
@@ -38,16 +38,16 @@ class UserRepositoryTest {
     @DisplayName("유저 email 중복 관련 체크")
     void userEmailConflict() {
         User user1 = User.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+                         .email("kimnoca@naver.com")
+                         .nickname("김노카")
+                         .build();
 
         userRepository.save(user1);
 
         User user2 = User.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김형준")
-                .build();
+                         .email("kimnoca@naver.com")
+                         .nickname("김형준")
+                         .build();
         // DataIntegrityViolationException 는 Data 무결성 제약 관련 Exception 이다.
         // email column에 unique = true 설정을 해주었기때문에 같은 email로 save를 하면 exception 발생
         assertThrows(DataIntegrityViolationException.class, () -> {
@@ -60,14 +60,14 @@ class UserRepositoryTest {
     @DisplayName("모든 유저 조회 테스트")
     void findAll() {
         User user1 = User.builder()
-                .email("example@naver.com")
-                .nickname("김형준")
-                .build();
+                         .email("example@naver.com")
+                         .nickname("김형준")
+                         .build();
 
         User user2 = User.builder()
-                .email("kimnoca@naver.com")
-                .nickname("김노카")
-                .build();
+                         .email("kimnoca@naver.com")
+                         .nickname("김노카")
+                         .build();
 
         List<User> users = new ArrayList<>(List.of(user1, user2));
 
