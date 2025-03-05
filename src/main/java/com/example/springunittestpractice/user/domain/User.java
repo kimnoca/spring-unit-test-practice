@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Users")
 public class User {
 
@@ -34,8 +34,8 @@ public class User {
     @Column(nullable = false)
     private String nickname;
 
-    @OneToMany(mappedBy = "user")
     @Builder.Default
+    @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
     public void changeUserNickname(String newNickname) {
