@@ -10,6 +10,7 @@ import com.example.springunittestpractice.user.dto.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
 
 
+    @Transactional
     public UserResponseDto createUser(UserCreateDto userCreateDto) {
 
         if (userRepository.findByEmail(userCreateDto.getEmail()).isPresent()) {
@@ -34,6 +36,7 @@ public class UserService {
         return UserResponseDto.of(savedUser);
     }
 
+    @Transactional
     public UserResponseDto updateUser(Long userId, UserUpdateDto userUpdateDto) {
 
         User user = userRepository.findById(userId)
@@ -45,6 +48,7 @@ public class UserService {
         return UserResponseDto.of(user);
     }
 
+    @Transactional(readOnly = true)
     public UserResponseDto findById(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new BusinessLogicException("존재하지 않는 User 입니다. " + userId,
