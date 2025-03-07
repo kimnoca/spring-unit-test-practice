@@ -10,6 +10,7 @@ import com.example.springunittestpractice.user.dao.UserRepository;
 import com.example.springunittestpractice.user.domain.User;
 import com.example.springunittestpractice.user.dto.UserCreateDto;
 import com.example.springunittestpractice.user.dto.UserResponseDto;
+import com.example.springunittestpractice.user.dto.UserUpdateDto;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,5 +68,23 @@ class UserServiceTest {
             userService.createUser(userCreateDto);
         });
 
+    }
+
+    @Test
+    void changeNicknameTest() {
+        User user = User.builder()
+            .email("kimnoca@naver.com")
+            .nickname("김노카")
+            .build();
+
+        UserUpdateDto request = UserUpdateDto.builder()
+            .newUserNickname("newNickname")
+            .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
+
+        UserResponseDto userResponseDto = userService.updateUser(1L, request);
+
+        assertThat(userResponseDto.nickname()).isEqualTo(request.getNewUserNickname());
     }
 }
