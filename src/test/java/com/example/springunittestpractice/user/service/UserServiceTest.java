@@ -3,6 +3,8 @@ package com.example.springunittestpractice.user.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.example.springunittestpractice.global.exception.BusinessLogicException;
@@ -45,9 +47,9 @@ class UserServiceTest {
 
         UserResponseDto response = userService.createUser(userCreateDto);
 
-//        verify(userService, times(1)).createUser(userCreateDto); -> @Spy 하면 잘 돌아감
-
         assertThat(response.email()).isEqualTo(user.getEmail());
+
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
